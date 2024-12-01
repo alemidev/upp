@@ -61,7 +61,7 @@ function cell(timestamp, rtt) {
 	if (rtt === null) {
 		return `<span class="cell empty" title="${d}"></span>`;
 	} else {
-		return `<span class="cell" title="${d}">${rtt}</span>`;
+		return `<span class="cell" title="${rtt}ms -- ${d}">${rtt}</span>`;
 	}
 }
 
