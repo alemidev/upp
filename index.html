@@ -40,18 +40,20 @@
 		hr.separator {
 			margin: 2em;
 		}
+		span.nobr {
+			white-space: nowrap;
+			margin-right: 1em;
+		}
 	</style>
 </head>
 <body>
-	<div class="container">
-		<h1>uppe.rs</h1>
-		<p>keeping track of your infra's up status</p>
-		<hr class="color"/>
+	<h1>uppe.rs</h1>
+	<p>keeping track of your infra's up status</p>
+	<hr class="color"/>
 
-		<main id="uppe-rs-content">
+	<main id="uppe-rs-content">
 
-		</main>
-	</div>
+	</main>
 </body>
 <script>
 function cell(timestamp, rtt) {
@@ -71,7 +73,7 @@ function card(key, history) {
 	return `<div class="card">
 		<h3>${key}</h3>
 		<div class="box">
-			${bar}
+			<span class="nobr">${bar}</span>
 		</div>
 	</div>
 	<hr class="separator"/>`;
