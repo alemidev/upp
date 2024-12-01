@@ -1,0 +1,14 @@
+interval_s = 10
+history = 600
+
+[service.moonlit]
+endpoint = "https://moonlit.technology"
+
+[service.site]
+endpoint = "https://alemi.dev"
+
+[service.codemp]
+endpoint = "https://code.mp"
+
+[service.down]
+endpoint = "https://down.alemi.dev"

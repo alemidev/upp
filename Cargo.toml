@@ -1,0 +1,13 @@
+[package]
+name = "uppe-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.5.21", features = ["derive"] }
+serde = { version = "1.0.215", features = ["derive"] }
+toml = "0.8.19"
+tokio = { version = "1.41.1", features = ["rt", "macros"] }
+reqwest = { version = "0.12.9", default-features = false, features = ["default-tls", "native-tls"] }
+chrono = { version = "0.4.38", features = ["serde"] }
+axum = "0.7.9"

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link crossorigin rel="stylesheet" href="https://cdn.alemi.dev/web/alemi.css">
+	<title>uppe.rs</title>
+	<style>
+		span.cell {
+			display: inline-block;
+			width: 1rem;
+			height: 1rem;
+			border: 1px solid var(--secondary);
+			font-size: 6pt;
+			line-height: 1rem;
+			background-color: rgba(var(--secondary-rgb), 0.4);
+			margin-top: .2rem;
+			margin-bottom: .2rem;
+			padding-top: 0;
+			padding-bottom: 0;
+			transition: .1s;
+			text-align: center;
+			cursor: default;
+		}
+		span.cell:hover {
+			padding-top: .2rem;
+			padding-bottom: .2rem;
+			margin-top: 0;
+			margin-bottom: 0;
+			line-height: 1rem;
+		}
+		span.cell.empty {
+			border: 1px solid var(--accent);
+			background-color: rgba(var(--accent-rgb), 0.4);
+		}
+		hr.color {
+			color: var(--accent);
+			border-color: var(--accent);
+		}
+		hr.separator {
+			margin: 2em;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>uppe.rs</h1>
+		<p>keeping track of your infra's up status</p>
+		<hr class="color"/>
+
+		<main id="uppe-rs-content">
+
+		</main>
+	</div>
+</body>
+<script>
+function cell(timestamp, rtt) {
+	let d = new Date(timestamp * 1000);
+	if (rtt === null) {
+		return `<span class="cell empty" title="${d}"></span>`;
+	} else {
+		return `<span class="cell" title="${d}">${rtt}</span>`;
+	}
+}
+
+function card(key, history) {
+	let bar = "";
+	for (let el of history) {
+		bar += cell(el[0], el[1]);
+	}
+	return `<div class="card">
+		<h3>${key}</h3>
+		<div class="box">
+			${bar}
+		</div>
+	</div>
+	<hr class="separator"/>`;
+}
+
+let main = document.getElementById("uppe-rs-content");
+
+async function updateStatus() {
+	let res = await fetch("/api/status")
+	let status = await res.json()
+	let keys = Object.keys(status);
+	keys.sort();
+
+	let out = "";
+
+	for (let key of keys) {
+		let res = await fetch(`/api/status/${key}`);
+		let history = await res.json();
+		out += card(key, history);
+	}
+
+	main.innerHTML = out;
+}
+
+setInterval(updateStatus, 60 * 1000)
+updateStatus()
+
+</script>
+</html>
+
