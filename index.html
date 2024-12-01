@@ -29,8 +29,11 @@
 			margin-bottom: 0;
 			line-height: 1rem;
 		}
-		span.cell.empty {
-			border: 1px solid var(--accent);
+		span.cell.warning {
+			border-color: var(--accent);
+		}
+		span.cell.error {
+			border-color: var(--accent);
 			background-color: rgba(var(--accent-rgb), 0.4);
 		}
 		hr.color {
@@ -58,10 +61,14 @@
 <script>
 function cell(timestamp, rtt) {
 	let d = new Date(timestamp * 1000);
+	let warning = "";
+	if (rtt !== null && rtt >= 1000) {
+		warning = " warning";
+	}
 	if (rtt === null) {
-		return `<span class="cell empty" title="${d}"></span>`;
+		return `<span class="cell error" title="${d}"></span>`;
 	} else {
-		return `<span class="cell" title="${rtt}ms -- ${d}">${rtt}</span>`;
+		return `<span class="cell${warning}" title="${rtt}ms -- ${d}">${rtt}</span>`;
 	}
 }
 
