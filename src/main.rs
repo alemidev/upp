@@ -243,7 +243,7 @@ impl Database {
 
 	async fn get(&self, sid: i64, limit: Option<i64>) -> rusqlite::Result<Vec<Event>> {
 		let db = self.0.lock().await;
-		let mut stmt = db.prepare("SELECT time, value FROM events WHERE sid = :sid LIMIT :limit")?;
+		let mut stmt = db.prepare("SELECT time, value FROM events WHERE service = :sid LIMIT :limit")?;
 		let results = stmt.query_map(
 			named_params! { ":sid": sid, ":limit": limit },
 			|row| Ok((row.get(0)?, row.get(1).optional()?)),
