@@ -193,7 +193,7 @@ impl Database {
 		};
 		db.execute(
 			"CREATE TABLE IF NOT EXISTS events (
-				id INTEGER PRIMARY KEY AUTO INCREMENT,
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				service INTEGER NOT NULL,
 				time BIG INTEGER NOT NULL,
 				value BIG INTEGER NULL,
@@ -208,7 +208,7 @@ impl Database {
 	
 		db.execute(
 			"CREATE TABLE IF NOT EXISTS services (
-				id INTEGER PRIMARY KEY AUTO INCREMENT,
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				name STRING NOT NULL,
 			)", params![]
 		)?;
