@@ -224,7 +224,7 @@ impl Database {
 
 	async fn services(&self) -> rusqlite::Result<Vec<(i64, String)>> {
 		let db = self.0.lock().await;
-		let mut stmt = db.prepare("SELECT * FROM services")?;
+		let mut stmt = db.prepare("SELECT id, name FROM services")?;
 		let res = stmt.query_map(
 			params![],
 			|row| Ok((row.get(0)?, row.get(1)?))
@@ -282,7 +282,7 @@ impl Database {
 		let mut stmt = db.prepare("SELECT value FROM events WHERE service = :sid AND time > :time")?;
 		stmt.query_row(
 			named_params! { ":sid": sid, ":time": since },
-			|row| row.get(0).optional()
+			|row| row.get::<usize, Option<i64>>(0)
 		)
 	}
 }
