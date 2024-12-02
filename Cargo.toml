@@ -1,6 +1,6 @@
 [package]
 name = "uppe-rs"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 
 [dependencies]
@@ -11,3 +11,11 @@ tokio = { version = "1.41.1", features = ["rt", "macros"] }
 reqwest = { version = "0.12.9", default-features = false, features = ["default-tls", "native-tls"] }
 chrono = { version = "0.4.38", features = ["serde"] }
 axum = "0.7.9"
+rusqlite = "0.32.1"
+thiserror = "2.0.3"
+serde_json = "1.0.133"
+async-recursion = "1.1.1"
+
+[features]
+default = []
+bundled = ["rusqlite/bundled"]
