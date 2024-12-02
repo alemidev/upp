@@ -65,7 +65,7 @@ async fn entry(cli: Cli, config: Config, db: Database) -> Result<(), Box<dyn std
 	for (key, service) in config.service {
 		let interval = service.interval_s.unwrap_or(default_interval);
 		let db = db.clone();
-		let sid = db.sid(&key).await?;
+		let sid = db.sid(&key, true).await?;
 
 		tokio::spawn(async move {
 			loop {
@@ -172,7 +172,7 @@ async fn api_status_service(
 	Query(q): Query<ServiceStatusQuery>,
 ) -> ApiResult<Vec<(i64, Option<i64>)>> {
 	let limit = q.limit.unwrap_or(50).min(250);
-	let sid = db.sid(&service).await?;
+	let sid = db.sid(&service, false).await?;
 	Ok(Json(db.get(sid, Some(limit)).await?))
 }
 
@@ -257,7 +257,7 @@ impl Database {
 	}
 
 	#[async_recursion::async_recursion]
-	async fn sid(&self, service: &str) -> rusqlite::Result<i64> {
+	async fn sid(&self, service: &str, upsert: bool) -> rusqlite::Result<i64> {
 		let res = {
 			let db = self.0.lock().await;
 			let mut stmt = db.prepare("SELECT id FROM services WHERE name = ?")?;
@@ -267,8 +267,12 @@ impl Database {
 		match res {
 			Some(sid) => Ok(sid),
 			None => {
-				self.0.lock().await.execute("INSERT INTO services(name) VALUES (?)", params![service])?;
-				self.sid(service).await
+				if upsert {
+					self.0.lock().await.execute("INSERT INTO services(name) VALUES (?)", params![service])?;
+					self.sid(service, upsert).await
+				} else {
+					Err(rusqlite::Error::QueryReturnedNoRows)
+				}
 			}
 		}
 	}
