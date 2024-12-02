@@ -72,13 +72,13 @@ function cell(timestamp, rtt) {
 	}
 }
 
-function card(key, history) {
+function card(key, history, last_rtt) {
 	let bar = "";
 	for (let el of history) {
 		bar += cell(el[0], el[1]);
 	}
 	return `<div class="card">
-		<h3>${key}</h3>
+		<h3>${key} (${last_rtt}ms)</h3>
 		<div class="box">
 			<span class="nobr">${bar}</span>
 		</div>
@@ -99,7 +99,7 @@ async function updateStatus() {
 	for (let key of keys) {
 		let res = await fetch(`/api/status/${key}`);
 		let history = await res.json();
-		out += card(key, history);
+		out += card(key, history, status[key]);
 	}
 
 	main.innerHTML = out;
