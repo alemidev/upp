@@ -196,7 +196,7 @@ impl Database {
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				service INTEGER NOT NULL,
 				time BIG INTEGER NOT NULL,
-				value BIG INTEGER NULL,
+				value BIG INTEGER NULL
 			)", params![]
 		)?;
 
@@ -209,7 +209,7 @@ impl Database {
 		db.execute(
 			"CREATE TABLE IF NOT EXISTS services (
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				name STRING NOT NULL,
+				name STRING NOT NULL
 			)", params![]
 		)?;
 
@@ -267,7 +267,7 @@ impl Database {
 		match res {
 			Some(sid) => Ok(sid),
 			None => {
-				self.0.lock().await.execute("INSERT INTO services(name) VALUES ?", params![service])?;
+				self.0.lock().await.execute("INSERT INTO services(name) VALUES (?)", params![service])?;
 				self.sid(service).await
 			}
 		}
