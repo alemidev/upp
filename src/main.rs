@@ -195,8 +195,8 @@ impl Database {
 			"CREATE TABLE IF NOT EXISTS events (
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				service INTEGER NOT NULL,
-				time BIG INTEGER NOT NULL,
-				value BIG INTEGER NULL
+				time BIGINT NOT NULL,
+				value BIGINT NULL
 			)", params![]
 		)?;
 
