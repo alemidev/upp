@@ -26,6 +26,9 @@ struct Config {
 	/// service description shown in web page
 	description: Option<String>,
 
+	/// requests taking longer than this limit (in ms) will be marked as "slow" in FE
+	threshold: Option<u64>,
+
 	/// how many samples of history to keep
 	//history: usize,
 
@@ -89,7 +92,8 @@ async fn entry(cli: Cli, config: Config, db: Database) -> Result<(), Box<dyn std
 	}
 
 	let index = include_str!("../index.html")
-		.replacen("%%DESCRIPTION%%", config.description.as_deref().unwrap_or("keeping track of your infra's up status"), 1);
+		.replacen("%%DESCRIPTION%%", config.description.as_deref().unwrap_or("keeping track of your infra's up status"), 1)
+		.replacen("%%THRESHOLD%%", &config.threshold.unwrap_or(1000).to_string(), 1);
 
 	// build our application with a single route
 	let app = axum::Router::new()

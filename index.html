@@ -87,7 +87,7 @@
 function cell(timestamp, rtt) {
 	let d = new Date(timestamp * 1000);
 	let warning = "";
-	if (rtt !== null && rtt >= 1000) {
+	if (rtt !== null && rtt >= %%THRESHOLD%%) {
 		warning = " warning";
 	}
 	if (rtt === null) {
