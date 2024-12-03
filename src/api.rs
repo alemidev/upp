@@ -6,7 +6,7 @@ use crate::{db::Database, Config};
 
 pub async fn serve(config: Config, db: Database, addr: &str) -> std::io::Result<()>{
 	// whats a jinja
-	let index = include_str!("../index.html")
+	let index = include_str!("../web/index.html")
 		.replacen("%%DESCRIPTION%%", config.description.as_deref().unwrap_or("keeping track of your infra's up status"), 1)
 		.replacen("%%THRESHOLD%%", &config.threshold.unwrap_or(1000).to_string(), 1);
 
