@@ -49,12 +49,14 @@
 		span.cell.error:hover {
 			background-color: rgba(var(--accent-rgb), 1);
 		}
+		span.sep {
+			color: var(--background-secondary);
+			margin-right: 1em;
+			margin-left: 1em;
+		}
 		hr.color {
 			color: var(--accent);
 			border-color: var(--accent);
-		}
-		hr.separator {
-			margin: 2em;
 		}
 		div.card {
 			display: inline-block;
@@ -71,18 +73,38 @@
 		div.card:hover {
 			background-color: var(--background-dim);
 		}
+		body {
+			margin: 0;
+		}
+		footer {
+			width: 100%;
+		}
+		div.content {
+			min-height: calc(100vh - 3.5rem);
+		}
 	</style>
 </head>
 <body>
-	<div class="ma-1">
-		<h1>uppe.rs</h1>
-		<p>%%DESCRIPTION%%</p>
+	<div class="content">
+		<div class="ml-1">
+			<h1 class="mt-0 pt-1">uppe.rs</h1>
+			<p>%%DESCRIPTION%%</p>
+		</div>
+		<hr class="color"/>
+
+		<main id="uppe-rs-content">
+
+		</main>
 	</div>
-	<hr class="color"/>
 
-	<main id="uppe-rs-content">
-
-	</main>
+	<footer>
+		<hr />
+		<p class="mt-s mb-s">
+			<span class="cell error">...</span> down <span class="sep">|</span>
+			<span class="cell warning">...</span> slow <span class="sep">|</span>
+			<span class="cell">...</span> up
+		</p>
+	</footer>
 </body>
 <script>
 function cell(timestamp, rtt) {
