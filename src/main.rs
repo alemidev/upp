@@ -23,6 +23,9 @@ struct Config {
 	/// defined services, singular because makes more sense in toml
 	service: std::collections::BTreeMap<String, Service>,
 
+	/// service description shown in web page
+	description: Option<String>,
+
 	/// how many samples of history to keep
 	//history: usize,
 
@@ -85,9 +88,12 @@ async fn entry(cli: Cli, config: Config, db: Database) -> Result<(), Box<dyn std
 		});
 	}
 
+	let index = include_str!("../index.html")
+		.replacen("%%DESCRIPTION%%", config.description.as_deref().unwrap_or("keeping track of your infra's up status"), 1);
+
 	// build our application with a single route
 	let app = axum::Router::new()
-		.route("/", axum::routing::get(root))
+		.route("/", axum::routing::get(|| async { Html(index) }))
 		.route("/api/status", axum::routing::get(api_status))
 		.route("/api/status/:service", axum::routing::get(api_status_service))
 		.with_state(db);
@@ -132,10 +138,6 @@ impl IntoResponse for ApiError {
 			).into_response(),
 		}
 	}
-}
-
-async fn root() -> Html<&'static str> {
-	Html(include_str!("../index.html"))
 }
 
 use axum::{extract::{Path, Query, State}, response::{Html, IntoResponse}, Json};
