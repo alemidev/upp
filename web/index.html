@@ -82,6 +82,24 @@
 		div.content {
 			min-height: calc(100vh - 3.5rem);
 		}
+		span.dots {
+			&:after {
+				animation: dots 1.5s linear infinite;
+				display: inline-block;
+				content: "\00a0\00a0\00a0";
+			}
+		}
+		@keyframes dots {
+			0% { content: "\00a0\00a0\00a0"; }
+			25% { content: ".\00a0\00a0"; }
+			50% { content: "..\00a0"; }
+			75% { content: "..."; }
+			100% { content: "\00a0\00a0\00a0"; }
+		}
+		.grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+		}
 	</style>
 </head>
 <body>
@@ -93,7 +111,7 @@
 		<hr class="color"/>
 
 		<main id="uppe-rs-content">
-
+			<h2 class="center mt-3">loading<span class="dots"></span></h2>
 		</main>
 	</div>
 
@@ -123,17 +141,22 @@ function cell(timestamp, rtt) {
 function card(key, history, last_rtt) {
 	let bar = "";
 	let now = Math.floor(Date.now() / 1000);
-	let first = history[0][0];
+	let first = history[history.length - 1][0];
 	let hrs_ago = (now - first) / 3600;
 	for (let el of history) {
 		bar += cell(el[0], el[1]);
 	}
 	return `<div class="card">
 		<h3 class="mt-0">${key} <code class="color">${last_rtt ? last_rtt + 'ms' : 'DOWN'}</code></h3>
-		<div class="box">
-			${bar}
-			<p class="ma-0"><small>^ ~${hrs_ago.toFixed(1)}h ago</small></p>
-		</div>
+		<table class="align">
+			<tr>
+				<td colspan="2">${bar}</td>
+			</tr>
+			<tr>
+				<td><small>^ now</small></td>
+				<td class="rev"><small>~${hrs_ago.toFixed(1)}h ago ^</small></td>
+			</tr>
+		</table>
 	</div>`;
 }
 
