@@ -48,21 +48,39 @@ struct Service {
 fn main() {
 	let cli = Cli::parse();
 
-	let raw_config = std::fs::read_to_string(&cli.config)
-		.expect("could not open config file");
+	let raw_config = match std::fs::read_to_string(&cli.config) {
+		Ok(x) => x,
+		Err(e) => {
+			println!("could not read config: {e}");
+			return;
+		},
+	};
 
-	let config = toml::from_str::<Config>(&raw_config)
-		.expect("invalid config format");
+	let config = match toml::from_str::<Config>(&raw_config) {
+		Ok(x) => x,
+		Err(e) => {
+			println!("invalid config file: {e}");
+			return;
+		},
+	};
 
-	let db =  Database::open(cli.storage.as_deref())
-		.expect("failed instantiating database");
+	let db =  match Database::open(cli.storage.as_deref()) {
+		Ok(x) => x,
+		Err(e) => {
+			println!("could not connect do database: {e}");
+			return;
+		},
+	};
 
-	tokio::runtime::Builder::new_current_thread()
+	if let Err(e) = tokio::runtime::Builder::new_current_thread()
 		.enable_all()
 		.build()
 		.expect("could not create tokio runtime")
 		.block_on(entry(cli, config, db))
-		.expect("event loop terminated with error");
+	{
+		println!("event loop terminated with error: {e}");
+		eprintln!("{e:?}");
+	}
 }
 
 async fn entry(cli: Cli, config: Config, db: Database) -> Result<(), Box<dyn std::error::Error>> {
