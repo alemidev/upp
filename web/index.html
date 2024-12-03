@@ -101,6 +101,9 @@ function cell(timestamp, rtt) {
 
 function card(key, history, last_rtt) {
 	let bar = "";
+	let now = Math.floor(Date.now() / 1000);
+	let first = history[0][0];
+	let hrs_ago = (now - first) / 3600;
 	for (let el of history) {
 		bar += cell(el[0], el[1]);
 	}
@@ -108,6 +111,7 @@ function card(key, history, last_rtt) {
 		<h3 class="mt-0">${key} <code class="color">${last_rtt ? last_rtt + 'ms' : 'DOWN'}</code></h3>
 		<div class="box">
 			${bar}
+			<p class="ma-0"><small>^ ~${hrs_ago.toFixed(1)}h ago</small></p>
 		</div>
 	</div>`;
 }
