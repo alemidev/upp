@@ -160,7 +160,8 @@ function card(key, history, last_rtt) {
 	</div>`;
 }
 
-let main = document.getElementById("uppe-rs-content");
+const main = document.getElementById("uppe-rs-content");
+const batchsize = (new URLSearchParams(window.location.search)).get('batch') || '%%BATCHSIZE%%';
 
 async function updateStatus() {
 	let res = await fetch("/api/status")
@@ -176,7 +177,7 @@ async function updateStatus() {
 	let out = "";
 
 	for (let key of keys) {
-		let res = await fetch(`/api/status/${key}?limit=%%BATCHSIZE%%`);
+		let res = await fetch(`/api/status/${key}?limit=${batchsize}`);
 		let history = await res.json();
 		out += card(key, history, status[key]);
 		out += "\n";
@@ -185,7 +186,7 @@ async function updateStatus() {
 	main.innerHTML = out;
 }
 
-setInterval(updateStatus, 60 * 1000)
+setInterval(updateStatus, 5 * 60 * 1000)
 updateStatus()
 
 </script>
