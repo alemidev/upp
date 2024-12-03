@@ -81,7 +81,7 @@ async fn api_status_service(
 	Path(service): axum::extract::Path<String>,
 	Query(q): Query<ServiceStatusQuery>,
 ) -> ApiResult<Vec<(i64, Option<i64>)>> {
-	let limit = q.limit.unwrap_or(50).min(250);
+	let limit = q.limit.unwrap_or(50).min(300);
 	let sid = db.sid(&service, false).await?;
 	Ok(Json(db.get(sid, limit).await?))
 }
