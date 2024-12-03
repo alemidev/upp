@@ -25,8 +25,8 @@ impl Database {
 		)?;
 
 		db.execute(
-			"CREATE INDEX IF NOT EXISTS event_per_service
-			ON events (service)",
+			"CREATE INDEX IF NOT EXISTS ordered_event_per_service
+			ON events (service, time DESC)",
 			params![],
 		)?;
 	
@@ -67,7 +67,7 @@ impl Database {
 
 	pub async fn get(&self, sid: i64, limit: i64) -> rusqlite::Result<Vec<Event>> {
 		let db = self.0.lock().await;
-		let mut stmt = db.prepare("SELECT time, value FROM events WHERE service = :sid LIMIT :limit")?;
+		let mut stmt = db.prepare("SELECT time, value FROM events WHERE service = :sid LIMIT :limit ORDER BY time DESC")?;
 		let results = stmt.query_map(
 			named_params! { ":sid": sid, ":limit": limit },
 			|row| Ok((row.get(0)?, row.get(1)?)),
@@ -103,7 +103,7 @@ impl Database {
 
 	pub async fn up(&self, sid: i64, since: i64) -> rusqlite::Result<Option<i64>> {
 		let db = self.0.lock().await;
-		let mut stmt = db.prepare("SELECT value FROM events WHERE service = :sid AND time > :time")?;
+		let mut stmt = db.prepare("SELECT value FROM events WHERE service = :sid AND time > :time ORDER BY time DESC")?;
 		stmt.query_row(
 			named_params! { ":sid": sid, ":time": since },
 			|row| row.get::<usize, Option<i64>>(0)
