@@ -173,7 +173,7 @@ async fn api_status_service(
 ) -> ApiResult<Vec<(i64, Option<i64>)>> {
 	let limit = q.limit.unwrap_or(50).min(250);
 	let sid = db.sid(&service, false).await?;
-	Ok(Json(db.get(sid, Some(limit)).await?))
+	Ok(Json(db.get(sid, limit).await?))
 }
 
 
@@ -241,12 +241,12 @@ impl Database {
 		Ok(())
 	}
 
-	async fn get(&self, sid: i64, limit: Option<i64>) -> rusqlite::Result<Vec<Event>> {
+	async fn get(&self, sid: i64, limit: i64) -> rusqlite::Result<Vec<Event>> {
 		let db = self.0.lock().await;
 		let mut stmt = db.prepare("SELECT time, value FROM events WHERE service = :sid LIMIT :limit")?;
 		let results = stmt.query_map(
 			named_params! { ":sid": sid, ":limit": limit },
-			|row| Ok((row.get(0)?, row.get(1).optional()?)),
+			|row| Ok((row.get(0)?, row.get(1)?)),
 		)?;
 
 		Ok(
