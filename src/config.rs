@@ -10,6 +10,9 @@ pub struct Config {
 	/// requests taking longer than this limit (in ms) will be marked as "slow" in FE
 	pub threshold: Option<u64>,
 
+	/// how many samples to provide to web frontend
+	pub batchsize: Option<u64>,
+
 	// TODO reintroduce this! should allow to optionally trim db periodically
 	/// how many samples of history to keep
 	//history: usize,

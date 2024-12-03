@@ -176,7 +176,7 @@ async function updateStatus() {
 	let out = "";
 
 	for (let key of keys) {
-		let res = await fetch(`/api/status/${key}?limit=120`);
+		let res = await fetch(`/api/status/${key}?limit=%%BATCHSIZE%%`);
 		let history = await res.json();
 		out += card(key, history, status[key]);
 		out += "\n";
