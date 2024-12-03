@@ -69,7 +69,7 @@ async fn entry(cli: Cli, config: Config, db: Database) -> Result<(), Box<dyn std
 
 		tokio::spawn(async move {
 			loop {
-				let res = test(&service.endpoint).await;
+				let res = test_route(&service.endpoint).await;
 				let value = match res {
 					Ok(rtt) => Some(rtt),
 					Err(e) => {
@@ -96,6 +96,15 @@ async fn entry(cli: Cli, config: Config, db: Database) -> Result<(), Box<dyn std
 	axum::serve(listener, app).await?;
 
 	Ok(())
+}
+
+async fn test_route(url: &str) -> reqwest::Result<i64> {
+	let before = chrono::Utc::now();
+	reqwest::get(url)
+		.await?
+		.error_for_status()?;
+	let delta = chrono::Utc::now() - before;
+	Ok(delta.num_milliseconds())
 }
 
 
@@ -127,15 +136,6 @@ impl IntoResponse for ApiError {
 
 async fn root() -> Html<&'static str> {
 	Html(include_str!("../index.html"))
-}
-
-async fn test(url: &str) -> reqwest::Result<i64> {
-	let before = chrono::Utc::now();
-	reqwest::get(url)
-		.await?
-		.error_for_status()?;
-	let delta = chrono::Utc::now() - before;
-	Ok(delta.num_milliseconds())
 }
 
 use axum::{extract::{Path, Query, State}, response::{Html, IntoResponse}, Json};
