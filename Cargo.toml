@@ -19,3 +19,4 @@ async-recursion = "1.1.1"
 [features]
 default = []
 bundled = ["rusqlite/bundled"]
+multi-thread = ["tokio/rt-multi-thread", "tokio/time"]

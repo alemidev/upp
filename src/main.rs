@@ -50,7 +50,19 @@ fn main() {
 		},
 	};
 
-	if let Err(e) = tokio::runtime::Builder::new_current_thread()
+	let mut runtime_builder = {
+		#[cfg(feature = "multi-thread")]
+		{
+			tokio::runtime::Builder::new_multi_thread()
+		}
+
+		#[cfg(not(feature = "multi-thread"))]
+		{
+			tokio::runtime::Builder::new_current_thread()
+		}
+	};
+
+	if let Err(e) = runtime_builder
 		.enable_all()
 		.build()
 		.expect("could not create tokio runtime")
