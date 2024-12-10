@@ -101,12 +101,18 @@ impl Database {
 		}
 	}
 
-	pub async fn up(&self, sid: i64, since: i64) -> rusqlite::Result<Option<i64>> {
+	pub async fn up(&self, sid: i64, since: Option<i64>) -> rusqlite::Result<Option<i64>> {
 		let db = self.0.lock().await;
-		let mut stmt = db.prepare("SELECT value FROM events WHERE service = :sid AND time > :time ORDER BY time DESC")?;
-		stmt.query_row(
-			named_params! { ":sid": sid, ":time": since },
-			|row| row.get::<usize, Option<i64>>(0)
-		)
+		let (mut stmt, param) = match since {
+			Some(t) => (
+				db.prepare("SELECT value FROM events WHERE service = :sid AND time > :time ORDER BY time DESC")?,
+				named_params! { ":sid": sid, ":time": t.clone() }, // TODO what's going on here? why is .clone() needed???
+			),
+			None => (
+				db.prepare("SELECT value FROM events WHERE service = :sid ORDER BY time DESC")?,
+				named_params! { ":sid": sid }
+			),
+		};
+		stmt.query_row(param, |row| row.get::<usize, Option<i64>>(0))
 	}
 }

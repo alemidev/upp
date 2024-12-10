@@ -60,10 +60,8 @@ async fn api_status(
 	Query(q): Query<StatusQuery>,
 ) -> ApiResult<HashMap<String, Option<i64>>> {
 	let mut state = HashMap::new();
-	let five_min_ago = (chrono::Utc::now() - chrono::Duration::minutes(5)).timestamp();
-	let since = q.since.unwrap_or(five_min_ago);
 	for (sid, name) in db.services().await? {
-		if let Ok(up) = db.up(sid, since).await {
+		if let Ok(up) = db.up(sid, q.since).await {
 			state.insert(name, up);
 		}
 	}
