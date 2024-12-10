@@ -1,0 +1,5 @@
+#!/bin/sh
+cargo build --release
+systemctl --user stop upp
+cat target/release/upp > /opt/bin/upp
+systemctl --user start upp
