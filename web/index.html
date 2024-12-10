@@ -4,7 +4,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link crossorigin rel="stylesheet" href="https://cdn.alemi.dev/web/alemi.css">
-	<title>uppe.rs</title>
+	<title>up.rs</title>
 	<style>
 		span.cell {
 			position: relative;
@@ -109,12 +109,12 @@
 <body>
 	<div class="content">
 		<div class="ml-1">
-			<h1 class="mt-0 pt-1">uppe.rs</h1>
+			<h1 class="mt-0 pt-1">up.rs</h1>
 			<p>%%DESCRIPTION%%</p>
 		</div>
 		<hr class="color"/>
 
-		<main id="uppe-rs-content">
+		<main id="upp-content">
 			<h2 class="center mt-3">loading<span class="dots"></span></h2>
 		</main>
 	</div>
@@ -164,7 +164,7 @@ function card(key, history, last_rtt) {
 	</div>`;
 }
 
-const main = document.getElementById("uppe-rs-content");
+const main = document.getElementById("upp-content");
 const batchsize = (new URLSearchParams(window.location.search)).get('batch') || '%%BATCHSIZE%%';
 
 async function updateStatus() {

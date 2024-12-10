@@ -1,10 +1,10 @@
-# uppe.rs
+# upp
 
 > batteries-included uptime monitor for your infrastructure
 
-`uppe.rs` runs off a single binary, a configuration file (in toml) and an sqlite database (can be in memory or persisted on disk), and provides a daemon that tests configured routes while also serving a tiny API and web frontend.
+`upp` runs off a single binary, a configuration file (in toml) and an sqlite database (can be in memory or persisted on disk), and provides a daemon that tests configured routes while also serving a tiny API and web frontend.
 
-it periodically makes requests to configured services, and tracks roundtrip time (or if no response was returned at all!). this data is then accessible using `uppe.rs` tiny builtin api, and can be viewed on the integrated webpage (served on service's `/`)
+it periodically makes requests to configured services, and tracks roundtrip time (or if no response was returned at all!). this data is then accessible using `upp` tiny builtin api, and can be viewed on the integrated webpage (served on service's `/`)
 
 as an example, check out my instance on [up.alemi.dev](https://up.alemi.dev)
 
@@ -21,4 +21,4 @@ future features which would be nice to add are:
  * multi-protocol endpoint tester
 
 ## name
-honestly pretty bad, probably a mix of uptime + rust + monitors + stimulants. send me better ideas plz, contacts on my site
+small but not really specific, `uprs` and `up-rs` and `up` were taken. if you have better name ideas let me know c:

@@ -15,7 +15,7 @@ struct Cli {
 	storage: Option<String>,
 
 	/// path to config file
-	#[arg(short, long, default_value = "uppe.toml")]
+	#[arg(short, long, default_value = "upp.toml")]
 	config: String,
 
 	/// host to bind api onto
