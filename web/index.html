@@ -146,6 +146,8 @@ function card(key, history, last_rtt) {
 	let bar = "";
 	let now = Math.floor(Date.now() / 1000);
 	let first = history[history.length - 1][0];
+	let last = history[0][0];
+	let min_ago = (now - last) / 60;
 	let hrs_ago = (now - first) / 3600;
 	for (let el of history) {
 		bar += cell(el[0], el[1]);
@@ -157,7 +159,7 @@ function card(key, history, last_rtt) {
 				<td colspan="2">${bar}</td>
 			</tr>
 			<tr>
-				<td><small>^ now</small></td>
+				<td><small>^ ~${min_ago.toFixed(0)}min ago</small></td>
 				<td class="rev"><small>~${hrs_ago.toFixed(1)}h ago ^</small></td>
 			</tr>
 		</table>
