@@ -15,7 +15,7 @@ pub async fn serve(config: Config, db: Database, addr: &str) -> std::io::Result<
 		.route("/", axum::routing::get(|| async { Html(index) }))
 		.route("/favicon.ico", axum::routing::get(|| async { include_bytes!("../web/upp.ico") }))
 		.route("/api/status", axum::routing::get(api_status))
-		.route("/api/status/:service", axum::routing::get(api_status_service))
+		.route("/api/status/{service}", axum::routing::get(api_status_service))
 		.with_state(db);
 
 	let listener = tokio::net::TcpListener::bind(addr).await?;
