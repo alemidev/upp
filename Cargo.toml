@@ -2,6 +2,12 @@
 name = "upp"
 version = "0.2.1"
 edition = "2024"
+authors = [ "alemi <me@alemi.dev>" ]
+description = "A simple, batteries-included, selfhosted uptime monitor for your infra"
+license = "GPL-3.0"
+repository = "https://github.com/alemidev/upp"
+readme = "README.md"
+keywords = ["selfhosted", "uptime", "all-in-one"]
 
 [dependencies]
 clap = { version = "4.5", features = ["derive"] }
