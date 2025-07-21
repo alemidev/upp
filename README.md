@@ -1,4 +1,10 @@
 # upp
+[![Actions Status](https://github.com/alemidev/upp/actions/workflows/test.yml/badge.svg?branch=dev)](https://github.com/alemidev/upp/actions/workflows/test.yml)
+[![Actions Status](https://github.com/alemidev/upp/actions/workflows/release.yml/badge.svg)](https://github.com/alemidev/upp/actions/workflows/release.yml)
+[![Crates.io Version](https://img.shields.io/crates/v/upp)](https://crates.io/crates/upp)
+[![Crates.io Downloads (latest version)](https://img.shields.io/crates/dv/upp)](https://crates.io/crates/upp)
+[![GitHub last commit](https://img.shields.io/github/last-commit/alemidev/upp)](https://github.com/alemidev/upp/commits/dev/)
+[![GitHub commits since tagged version](https://img.shields.io/github/commits-since/alemidev/upp/v0.3.2)](https://github.com/alemidev/upp/releases/tag/v0.3.2)
 
 > batteries-included uptime monitor for your infrastructure
 
