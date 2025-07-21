@@ -7,10 +7,10 @@ pub struct Config {
 	/// service description shown in web page
 	pub description: Option<String>,
 
-	/// requests taking longer than this limit (in ms) will be marked as "slow" in FE
+	/// requests taking longer than this limit (in ms) will be marked as "slow" in FE (default 1000)
 	pub threshold: Option<u64>,
 
-	/// how many samples to provide to web frontend
+	/// how many samples to provide by default to web frontend (default 120)
 	pub batchsize: Option<u64>,
 
 	// TODO reintroduce this! should allow to optionally trim db periodically
