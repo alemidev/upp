@@ -4,7 +4,7 @@
 [![Crates.io Version](https://img.shields.io/crates/v/upp)](https://crates.io/crates/upp)
 [![Crates.io Downloads (latest version)](https://img.shields.io/crates/dv/upp)](https://crates.io/crates/upp)
 [![GitHub last commit](https://img.shields.io/github/last-commit/alemidev/upp)](https://github.com/alemidev/upp/commits/dev/)
-[![GitHub commits since tagged version](https://img.shields.io/github/commits-since/alemidev/upp/v0.3.2)](https://github.com/alemidev/upp/releases/tag/v0.3.2)
+[![GitHub commits since tagged version](https://img.shields.io/github/commits-since/alemidev/upp/v0.2.2)](https://github.com/alemidev/upp/releases/tag/v0.2.2)
 
 > batteries-included uptime monitor for your infrastructure
 
@@ -20,11 +20,6 @@ this aims to be super simple to use to glance at your stuff and help figuring ou
 future features which would be nice to add are:
  * notifications on downtime
  * auto-cleanup of old samples
- * configurable frontend span
- * graph references on frontend
  * data exporters
  * full database engine to use mysql/psql
  * multi-protocol endpoint tester
-
-## name
-small but not really specific, `uprs` and `up-rs` and `up` were taken. if you have better name ideas let me know c:
