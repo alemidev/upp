@@ -13,7 +13,7 @@ keywords = ["selfhosted", "uptime", "all-in-one"]
 clap = { version = "4.5", features = ["derive"] }
 serde = { version = "1.0", features = ["derive"] }
 toml = "0.9"
-tokio = { version = "1.46", features = ["rt", "macros"] }
+tokio = { version = "1.47", features = ["rt", "macros"] }
 reqwest = { version = "0.12", default-features = false, features = ["default-tls", "native-tls"] }
 chrono = { version = "0.4", features = ["serde"] }
 axum = "0.8"
